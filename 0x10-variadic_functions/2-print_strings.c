@@ -3,98 +3,39 @@
 #include <stdarg.h>
 
 /**
- * op_c - Print character .
- * @form: name va_list
- *
- * Return: Nothing.
+ * print_strings - prints strings.
+ * @n: number of arguments
+ * @separator: character separator of numbers
+ * Return: Always 0.
  */
-
-void op_c(va_list form)
+void print_strings(const char *separator, const unsigned int n, ...)
 {
-	printf("%c", va_arg(form, int));
-}
-/**
- * op_i - Print Integer
- * @form: name va_list
- *
- * Return: Nothing.
- */
-
-void op_i(va_list form)
-{
-	printf("%i", va_arg(form, int));
-}
-/**
- * op_f - print FLoat numbers
- * @form: name of va_list
- *
- * Return: Nothing.
- */
-
-void op_f(va_list form)
-{
-	printf("%f", va_arg(form, double));
-}
-/**
- * op_s -print string
- * @form: name va_list
- *
- * Return: Nothing.
- */
-
-void op_s(va_list form)
-{
+	va_list string;
+	unsigned int i;
 	char *str;
 
-	str = va_arg(form, char *);
-	if (str == NULL)
+	if (separator == NULL)
 	{
-		printf("(nil)");
-		return;
+		separator = "";
 	}
-	printf("%s", str);
-}
 
-/**
- * print_all - check the code for Holberton School students.
- * @format: number of arguments in character format
- *
- * Return: Nothing.
- */
+	va_start(string, n);
 
-void print_all(const char * const format, ...)
-{
-
-	va_list all;
-	unsigned int i, j;
-	char *separator = "";
-
-	f ops[] = {
-		{"c", op_c},
-		{"i", op_i},
-		{"f", op_f},
-		{"s", op_s},
-		};
-
-	va_start(all, format);
-	i = 0;
-	while (format && format[i])
+	for (i = 0; i < n; i++)
 	{
-		j = 0;
-		while (j < 4)
+		str = va_arg(string, char *);
+		if (str == NULL)
 		{
-			if (ops[j].op[0] == format[i])
-			{
-				printf("%s", separator);
-				separator = ", ";
-				ops[j].f(all);
-				break;
-			}
-			j++;
+			printf("(nil)");
+			break;
 		}
-	i++;
+		printf("%s", str);
+		if (n == i + 1)
+		{
+			break;
+		}
+		printf("%s", separator);
 	}
-
 	printf("\n");
-	va_end(all);
-}
+	va_end(string);
+}}
